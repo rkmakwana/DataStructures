@@ -27,12 +27,21 @@ enum StackError: Error {
 struct Stack<Item>: StackType {
     typealias T = Item
     
-    private var items: [Item]
+    private var items = [Item]()
     private var size: Int = 0
     
     init(stackSize: Int) {
         size = stackSize
-        items = [Item]()
+    }
+    
+    var debugDescription: String {
+        var contents = ""
+        items.reversed().forEach({ contents.append("\($0)\n") })
+        return """
+        --- Stack ---
+        \(contents)
+        -------------
+        """
     }
     
     var top: Int {
@@ -73,6 +82,7 @@ do {
     }
 } catch let e as StackError {
     print(e.description)
+    print(stack.debugDescription)
 }
 
 stack.top
